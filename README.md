@@ -1,7 +1,6 @@
 # SeventeenMon
 
-SeventeenMon simply help you find location by IP address. Data is totally based on [17MON.CN](http://tool.17mon.cn/).
-
+SeventeenMon simply help you find location by IP address. 
 
 ## Compatibility
 
@@ -11,25 +10,23 @@ I have tested it on Ruby >= 1.9.3. Other versions are not tested but should work
 
 Add this line to your application's Gemfile:
 
-    gem 'seventeen_mon', git: "git@github.com:mycolorway/SeventeenMon.git"
+    gem 'seventeen_mon', git: "git@github.com:limanxian/SeventeenMon.git"
+    
 
 And then execute:
 
     $ bundle
 
-Or you can install simply by
-
-    $ gem install seventeen_mon
 
 ## Usage
 
 ### In Ruby
 ```(ruby)
 SM.find_by_ip "119.75.216.20"
-# => {:country=>"中国", :province=>"北京", :city=>"北京"}
+# => {:country=>"中国", :province=>"北京", :city=>"北京", :company=>"公司名称", :operator=>"电信"}
 
 SM.find_by_address "http://taobao.com"
-# => {:country=>"中国", :province=>"浙江", :city=>"杭州"}
+# => {:country=>"中国", :province=>"浙江", :city=>"杭州", :company=>"", :operator=>"阿里云/电信/联通/移动/铁通/教育网"}
 ```
 
 ### In Command Line
@@ -45,6 +42,12 @@ $ seventeen seventeen address http://taobao.com
 Country:   中国
 Province:  浙江
 City:      杭州
+```
+
+### Data Path
+
+```(ruby)
+SM.data_path= "/datapath/ipipnet.dat"
 ```
 
 ## Contributing

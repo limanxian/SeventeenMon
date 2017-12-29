@@ -7,6 +7,10 @@ module SeventeenMon
   require "seventeen_mon/ipdb"
   require "seventeen_mon/ip"
 
+  def self.data_path=(path)
+    IPDB.instance.ip_db_path(path)
+  end
+
   def self.find_by_ip(_ip)
     IP.new(ip: _ip).find
   end

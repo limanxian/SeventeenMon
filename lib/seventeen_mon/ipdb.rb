@@ -3,9 +3,10 @@ module SeventeenMon
 
     private_class_method :new
 
-    def ip_db_path
-      @ip_db_path ||= File.expand_path'../../data/17monipdb.dat', __FILE__
+    def ip_db_path(path = (File.expand_path'../../data/17monipdb.dat', __FILE__))
+      $ip_db_path ||= path
     end
+
     def ip_db
       @ip_db ||= File.open ip_db_path, 'rb'
     end

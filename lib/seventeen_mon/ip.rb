@@ -56,7 +56,9 @@ module SeventeenMon
       {
         country: result[0],
         province: result[1],
-        city: result[2]
+        city: result[2],
+        company: result[3],
+        operator: result[4]
       }
     end
   end
