@@ -33,33 +33,44 @@ module SeventeenMon
     end
 
     def find
-      tmp_offset = four_number[0] * 4
-      start = IPDB.instance.index[tmp_offset..(tmp_offset + 3)].unpack("V")[0] * 8 + 1024
+      begin
+        tmp_offset = four_number[0] * 4
+        start = IPDB.instance.index[tmp_offset..(tmp_offset + 3)].unpack("V")[0] * 8 + 1024
 
-      index_offset = nil
+        index_offset = nil
 
-      while start < IPDB.instance.max_comp_length
-        if IPDB.instance.index[start..(start + 3)] >= packed_ip
-          index_offset = "#{IPDB.instance.index[(start + 4)..(start + 6)]}\x0".unpack("V")[0]
-          index_length = IPDB.instance.index[(start + 7)].unpack("C")[0]
-          break
+        while start < IPDB.instance.max_comp_length
+          if IPDB.instance.index[start..(start + 3)] >= packed_ip
+            index_offset = "#{IPDB.instance.index[(start + 4)..(start + 6)]}\x0".unpack("V")[0]
+            index_length = IPDB.instance.index[(start + 7)].unpack("C")[0]
+            break
+          end
+          start += 8
         end
-        start += 8
+
+        return "N/A" unless index_offset
+
+        result = IPDB.instance.seek(index_offset, index_length).map do |str|
+          str.encode("UTF-8", "UTF-8")
+        end
+
+        {
+          country: result[0],
+          province: result[1],
+          city: result[2],
+          company: result[3],
+          operator: result[4]
+        }
+      rescue => e
+        {
+            country: "",
+            province: "",
+            city: "",
+            company: "",
+            operator: "",
+            error: e
+        }
       end
-
-      return "N/A" unless index_offset
-
-      result = IPDB.instance.seek(index_offset, index_length).map do |str|
-        str.encode("UTF-8", "UTF-8")
-      end
-
-      {
-        country: result[0],
-        province: result[1],
-        city: result[2],
-        company: result[3],
-        operator: result[4]
-      }
     end
   end
 end
